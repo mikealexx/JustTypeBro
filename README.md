@@ -22,7 +22,7 @@ Just add the contact and start transcribing your audio messages instantly. Perfe
 
 ## Contact
 
-For any issues or inquiries, feel free to reach out via GitHub issues or contact us through WhatsApp.
+For any issues or inquiries, feel free to reach out via GitHub issues.
 
 ---
 
