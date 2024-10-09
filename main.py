@@ -1,5 +1,4 @@
-import os
-from transformers import pipeline
+import whisper, os
 import logging
 from neonize.client import NewClient
 from neonize.events import (
@@ -8,7 +7,7 @@ from neonize.events import (
 )
 
 # Initializations
-whisper = pipeline("automatic-speech-recognition", model="openai/whisper-large-v3")
+model = whisper.load_model("turbo")
 client = NewClient("just_type_bro.sqlite3")
 logger = logging.getLogger("Whisper")
 
@@ -32,8 +31,8 @@ def handler(client, message):
     opus_path = 'media/audio.opus'
     mp3_path = 'media/audio.mp3'
     os.system(f'ffmpeg -i "{opus_path}" -vn "{mp3_path}" -y')
-    transcription = whisper(mp3_path)
-    client.send_message(chat, transcription)
+    result = whisper.transcribe(audio=opus_path, model=model)["text"]
+    client.send_message(chat, result)
 
 if __name__ == "__main__":
     client.connect()
