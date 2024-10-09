@@ -27,9 +27,9 @@ def handler(client, message):
     chat = message.Info.MessageSource.Chat
     #group_name = client.get_group_info(chat).GroupName.Name
     
-    client.download_any(message.Message, path="temp\\media.opus")
-    opus_path = 'temp\\media.opus'
-    mp3_path = 'temp\\media.mp3'
+    client.download_any(message.Message, path="media/audio.opus")
+    opus_path = 'media/audio.opus'
+    mp3_path = 'media/audio.mp3'
     os.system(f'ffmpeg -i "{opus_path}" -vn "{mp3_path}" -y')
     result = whisper.transcribe(audio=opus_path, model=model)["text"]
     client.send_message(chat, result)
