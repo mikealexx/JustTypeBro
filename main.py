@@ -23,7 +23,11 @@ def on_connected(_: NewClient, __: ConnectedEv):
 
 @client.event(MessageEv)
 def on_message(client: NewClient, message: MessageEv):
-    handler(client, message)
+    print(f"\n\n{message.Info.Type}\n\n")
+    print(f"\n\n{message.Info.MediaType}\n\n")
+    if message.Info.MediaType == "audio" or message.Info.MediaType == "ptt":
+        print("\n\nOK\n\n")
+        handler(client, message)
 
 def handler(client, message):
     #text = message.Message.conversation or message.Message.extendedTextMessage.text
