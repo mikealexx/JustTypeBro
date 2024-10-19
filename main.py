@@ -1,5 +1,6 @@
 import requests, os
-import logging
+import logging, time
+from datetime import datetime
 from neonize.client import NewClient
 from neonize.events import (
     ConnectedEv,
@@ -10,6 +11,7 @@ from neonize.events import (
 whisper_url = "https://api-inference.huggingface.co/models/openai/whisper-large-v3"
 client = NewClient("just_type_bro.sqlite3")
 logger = logging.getLogger("Whisper")
+start_time = int(time.time()) * 1000
 
 api_token = os.getenv("api_token")
 headers = {"Authorization": f"Bearer {api_token}"}
@@ -23,7 +25,8 @@ def on_connected(_: NewClient, __: ConnectedEv):
 
 @client.event(MessageEv)
 def on_message(client: NewClient, message: MessageEv):
-    if message.Info.MediaType == "audio" or message.Info.MediaType == "ptt":
+    print(f"\n\nstart time:\t{start_time}\nmessage time:\t{message.Info.Timestamp}\n\n")
+    if message.Info.Timestamp > start_time and (message.Info.MediaType == "audio" or message.Info.MediaType == "ptt"):
         handler(client, message)
 
 def handler(client, message):
